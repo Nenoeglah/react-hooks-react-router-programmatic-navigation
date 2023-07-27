@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -7,6 +8,7 @@ function Login({ setIsLoggedIn }) {
     username: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   function handleChange(e) {
     setFormData({
@@ -18,10 +20,13 @@ function Login({ setIsLoggedIn }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    setIsLoggedIn(true);
-
-    // after logging the user in, redirect to the home page!
-    history.push("/");
+    if (formData.password === "password") {
+      setIsLoggedIn(true);
+      // after logging the user in, redirect to the home page!
+      history.push("/");
+    } else {
+      setError("Invalid password");
+    }
   }
 
   return (
@@ -40,6 +45,7 @@ function Login({ setIsLoggedIn }) {
         onChange={handleChange}
       />
       <button type="submit">Login</button>
+      {error && <p>{error}</p>}
     </form>
   );
 }
